@@ -1,0 +1,59 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+ 
+ enum TodoPriority{
+  LOW
+  MEDIUM
+  HIGH
+
+ }
+
+ model User {
+  id     String @id @default(uuid())
+  name    String?
+  email     String @unique
+  passwordHash   String @map("password_hast")
+  isActive   Boolean @default(true) @map("is_active")
+
+
+todos Todo[]
+
+createdAt DateTime @default(now()) @map("created_at")
+updateAt  DateTime @updatedAt @map("updated_at")
+
+@@map("user")
+ }
+
+model Todo {
+
+  id       String @id @default(uuid())
+  title       String
+  decription      String
+  completed      Boolean @default(false)
+  priority    TodoPriority @default(MEDIUM)
+  dueAt        DateTime? @map("due_at")
+  completedAt  Decimal? @map("completed_at")
+
+  userId    String @map("user_id")
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+
+  creatAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+
+  @@index([userId])
+  @@index([completed])
+  @@map("todos")
+}
+
+
+
+
