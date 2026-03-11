@@ -13,7 +13,7 @@ export class CreateTodoDto {
 }
 
 enum TodoPriority {
-    LOW = 'LOW'
-    MEDIUM='MEDIUM'
+    LOW = 'LOW',
+    MEDIUM ='MEDIUM',
     HIGH ='HIGH'
 }
